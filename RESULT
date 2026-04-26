@@ -1,33 +1,56 @@
-# 📊 Results & Discussion
+## **📊 Results & Discussion**
 
-The FSM-based sequence generator and detector system was successfully designed, simulated, and implemented on the FPGA. The system demonstrates accurate sequence generation, reliable detection of the target pattern (01111110), and efficient real-time performance without any false triggering.
+The FSM-based sequence generator and detector system was successfully designed, simulated, and implemented on FPGA. The system accurately generates binary sequences and reliably detects the target pattern (`01111110`) in real time without false triggering.
 
-🔍 Simulation Waveforms
+---
 
-📈 Explanation of Waveforms
+### **🔍 Simulation Results**
 
-The simulation waveforms validate the correct operation of the overall system:
+![Simulation Waveform](waveform1.jpg)
 
-The clock signal maintains a stable periodic waveform, ensuring synchronized FSM operation.
-The generated output (gen_out) shows varying bit patterns, confirming proper random and controlled sequence generation.
-The detection signal (detect) is asserted HIGH only when the complete target sequence (01111110) is received.
+![ILA Waveform](waveform2.jpg)
 
-It is clearly observed that:
+*Figure: Simulation and ILA waveforms showing sequence generation and detection behavior.*
 
-The FSM transitions through all intermediate states corresponding to each bit of the sequence.
-The detect signal is triggered only at the final state, ensuring precise detection.
-The output pulse is limited to one clock cycle, avoiding redundant or extended detection signals.
-📡 ILA Observations
+---
 
-The Integrated Logic Analyzer (ILA) provides real-time validation of internal FPGA signals:
+### **📈 Waveform Analysis**
 
-In random mode (a = 0), the generated sequence does not consistently contain the target pattern, and the detect signal remains LOW, confirming no false detection.
-In controlled mode (a = 1), the predefined sequence is introduced into the data stream, and the detect signal shows distinct HIGH pulses exactly at the point of successful pattern matching.
-The ILA waveforms confirm that detection occurs only when the full sequence is matched, validating the correctness of FSM state transitions in hardware.
-⚙️ Hardware Output
+- The **clock signal** is stable, ensuring synchronized FSM operation.  
+- The **generated output (`gen_out`)** shows both random and controlled sequence patterns.  
+- The **detection signal (`detect`)** goes HIGH only when the complete sequence (`01111110`) is matched.  
 
-The design was successfully implemented on the PYNQ-Z2 FPGA board, and the results were verified using on-board LEDs:
+**Key Observations:**
+- Detection occurs **only at the final state**, ensuring accuracy.  
+- The detect signal is active for **one clock cycle**, providing precise output.  
+- No false triggering is observed for partial or incorrect patterns.  
 
-The LED glows when the target sequence is detected, providing a clear hardware indication of successful detection.
-When the sequence is not present, the LED remains OFF, ensuring zero false positives.
-The system responds in real time, demonstrating seamless interaction between sequence generation, pattern control, and detection mechanisms.
+---
+
+### **📡 ILA Observations**
+
+- In **random mode (`a = 0`)**, the detect signal remains LOW, confirming no unintended detection.  
+- In **controlled mode (`a = 1`)**, the system injects the target sequence, and the detect signal shows **clear HIGH pulses** at correct instances.  
+- Confirms correct FSM transitions and real-time detection on hardware.
+
+---
+
+### **⚙️ Hardware Output**
+
+![FPGA Output](fpga.jpg)
+
+*Figure: LED indication on FPGA showing successful sequence detection.*
+
+- The **LED turns ON** when the target sequence is detected.  
+- The LED remains OFF when no valid sequence is present.  
+- Demonstrates **real-time hardware validation** of the system.
+
+---
+
+### **🚀 Final Outcome**
+
+- ✔️ Accurate detection of sequence `01111110`  
+- ✔️ Zero false detection  
+- ✔️ One-clock-cycle precise output  
+- ✔️ Efficient FSM design and integration  
+- ✔️ Successful real-time FPGA implementation  
