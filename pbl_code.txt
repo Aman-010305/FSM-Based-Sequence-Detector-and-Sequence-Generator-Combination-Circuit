@@ -1,0 +1,323 @@
+module seq_gen (
+    input  wire clk,
+    input  wire reset,
+    output reg  out
+);
+
+    parameter G0 = 3'b000,
+              G1 = 3'b001,
+              G2 = 3'b010,
+              G3 = 3'b011,
+              G4 = 3'b100,
+              G5 = 3'b101,
+              G6 = 3'b110,
+              G7 = 3'b111;
+
+    reg [2:0] ps, ns;
+
+
+    always @(posedge clk or posedge reset) begin
+        if (reset)
+            ps <= G0;
+        else
+            ps <= ns;
+    end
+
+   
+    always @(*) begin
+        case (ps)
+            G0: ns = G1;
+            G1: ns = G2;
+            G2: ns = G3;
+            G3: ns = G4;
+            G4: ns = G5;
+            G5: ns = G6;
+            G6: ns = G7;
+            G7: ns = G0;
+            default: ns = G0;
+        endcase
+    end
+    
+    always @(*) begin
+        case (ps)
+            G0: out = 1'b0;
+            G1: out = 1'b1;
+            G2: out = 1'b1;
+            G3: out =1'b1;
+            G4: out =1'b1;
+            G5:out= 1'b1;
+            G6: out = 1'b1;
+            G7: out = 1'b0;
+            default: out = 1'b0;
+        endcase
+    end
+
+endmodule
+
+
+
+
+
+
+ module random_bit (
+    input  wire clk,
+    input  wire rst,
+    output reg  rb
+);
+
+    reg [7:0] lfsr;
+
+    always @(posedge clk or posedge rst) begin
+        if (rst) begin
+            lfsr <= 8'b0000_0001;
+            rb   <= 1'b0;
+        end else begin
+            lfsr <= {lfsr[6:0],
+                     lfsr[7] ^ lfsr[5] ^ lfsr[4] ^ lfsr[3]};
+            rb <= lfsr[0];
+        end
+    end
+
+endmodule
+
+
+
+
+
+
+
+
+
+
+module seq_det(
+    input clk,
+    input rst,
+    input a,
+    output reg q
+);
+
+    parameter [2:0]
+        s0 = 3'b000,
+        s1 = 3'b001,
+        s2 = 3'b010,
+        s3 = 3'b011,
+        s4 = 3'b100,
+        s5 = 3'b101,
+        s6 = 3'b110,
+        s7 = 3'b111;
+
+    reg [2:0] ps, ns;
+
+   
+    always @(posedge clk or posedge rst) begin
+        if (rst)
+            ps <= s0;
+        else
+            ps <= ns;
+    end
+    always @(*) begin
+        q = 1'b0;   
+        case (ps)
+            s0: ns = (a) ? s0 : s1;
+            s1: ns = (a) ? s2 : s1;
+            s2: ns = (a) ? s3 : s1;
+            s3: ns = (a) ? s4 : s1;
+            s4: ns = (a) ? s5 : s1;
+            s5: ns = (a) ? s6 : s1;
+            s6: ns = (a) ? s7 : s1;
+
+            s7: begin
+                if (!a) begin
+                    q  = 1'b1;   
+                    ns = s0;
+                end else
+                    ns = s0;
+            end
+
+            default: ns = s0;
+        endcase
+    end
+
+
+endmodule
+
+
+
+
+
+
+
+
+
+module pbl_1 (
+    input  clk,
+    input  reset,
+    input  a,
+    output gen_out,
+    output detect,
+    output reg [63:0]seq
+);
+
+
+    in_gen U1 (
+        .clk     (clk),
+        .rst     (reset),
+        .a       (a),
+        .out     (gen_out),
+        .seq_reg (seq)
+    );
+
+    seq_det U2 (
+        .clk (clk),
+        .rst (reset),
+        .a   (gen_out),
+        .q   (detect)
+    );
+
+endmodule
+
+
+
+
+
+
+module pbl_tb;
+
+    reg clk;
+    reg rst;
+    reg a;
+    wire gen_out;
+    wire detect;
+    wire [63:0]seq;
+
+
+    pbl_1 DUT (
+        .clk(clk),
+        .reset(rst),
+        .a(a),
+        .gen_out(gen_out),
+        .detect(detect),
+        .seq(seq)
+    );
+    initial begin
+    rst=1;a=0;
+    clk=0;
+    forever
+    #5 clk=~clk;
+    end
+    
+    initial begin
+    #5 rst=1'b0;
+    #20 a=1;
+    #100 a=0;
+    #150 a=1;
+    #100 a=0;
+    #100 a=1;
+    #300 $finish;
+    
+    end
+
+endmodule
+
+module pbl_1 (
+    input  wire clk,        // 100 MHz clock from PYNQ
+    input  wire reset,      // Active-high reset
+    input  wire a,
+    output wire gen_out,
+    output wire detect
+);
+
+    // Clock divider register
+    reg [26:0] clkd;
+
+    // Divide clock by 2^27
+    always @(posedge clk) begin
+     
+            clkd <= clkd + 1'b1;
+    end
+
+    // Use divided clock
+    wire slow_clk = clkd[26];
+
+    // Generator module
+    gen_in U1 (
+        .clk (slow_clk),
+        .rst (reset),
+        .a   (a),
+        .out (gen_out)
+    );
+
+    // Sequence detector
+    seq_det U2 (
+        .clk (slow_clk),
+        .rst (reset),
+        .a   (gen_out),
+        .q   (detect)
+    );
+
+endmodule
+
+`timescale 1ns / 1ps
+//////////////////////////////////////////////////////////////////////////////////
+// Company: 
+// Engineer: 
+// 
+// Create Date: 29.01.2026 16:38:29
+// Design Name: 
+// Module Name: in_gen
+// Project Name: 
+// Target Devices: 
+// Tool Versions: 
+// Description: 
+// 
+// Dependencies: 
+// 
+// Revision:
+// Revision 0.01 - File Created
+// Additional Comments:
+// 
+//////////////////////////////////////////////////////////////////////////////////
+
+
+module in_gen (
+    input  wire clk,
+    input  wire rst,
+    input  wire a,
+    output reg  out,
+    output reg [63:0] seq_reg
+);
+
+    wire seq_bit;
+    wire rand_bit;
+
+    // Deterministic sequence generator
+    seq_gen u1 (
+        .clk   (clk),
+        .reset (rst),
+        .out   (seq_bit)
+    );
+
+    // Random bit generator
+    random_bit u2 (
+        .clk (clk),
+        .rst (rst),
+        .rb  (rand_bit)
+    );
+
+    always @(posedge clk or posedge rst) begin
+        if (rst) begin
+            out     <= 1'b0;
+            seq_reg <= 64'd0;
+        end else begin
+            if (a)
+                out <= seq_bit;
+            else
+                out <= rand_bit;
+
+            // Shift-left and insert new bit at LSB
+            seq_reg <= {out,seq_reg[62:0]};
+        end
+    end
+
+endmodule
+
