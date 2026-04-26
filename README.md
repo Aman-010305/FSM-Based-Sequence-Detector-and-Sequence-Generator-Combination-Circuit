@@ -44,23 +44,27 @@ The system operates as a **multi-stage FSM-driven pipeline**, combining sequence
 ![Sequence Detected](HW_imp_2.jpg)
 
 # Result 
--Successful generation of **binary sequences** on FPGA
+-Successful generation of **binary sequences** on FPGA.
 
--Accurate detection of sequence **01111110**
+-Accurate detection of sequence **01111110**.
 
--**Detection signal** asserted only on complete match
+-**Detection signal** asserted only on complete match.
 
--**No false detection** for partial sequences
+-**No false detection** for partial sequences.
 
--Verified using **simulation waveforms** and **ILA outputs**
+-Verified using **simulation waveforms** and **ILA outputs**.
 
--Hardware implementation confirmed via LED outputs on **PYNQ-Z2**
+-Hardware implementation confirmed via LED outputs on **PYNQ-Z2**.
 
 ![Output Waveform](Simulated_OP_Waveform.jpg)
 
 # Future Scope
--Extend design for **multiple sequence detection**
--Implement **higher-length and complex patterns**
--Optimize FSM using **state minimization techniques**-Explore **low-power and high-speed FPGA optimizations**
--Implement **Bit Stuffing** to handle repetitive patterns and improving detection robustness
+-Extend design for **multiple sequence detection**.
+
+-Implement **higher-length and complex patterns**.
+
+-Optimize FSM using **state minimization techniques**-Explore **low-power and high-speed FPGA optimizations**.
+
+-Implement **Bit Stuffing** to handle repetitive patterns and improving detection robustness.
+
 -**Display detected sequences** bit-by-bit using **FPGA board LEDs** for direct, real-time hardware-level identification.
