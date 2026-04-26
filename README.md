@@ -13,11 +13,11 @@ This project implements a **Finite State Machine (FSM)-based Sequence Generator 
 
 -**Design Approach**:
 
-  -FSM Design (Mealy/Moore)
+    -FSM Design (Mealy/Moore)
   
-  -State Transition Optimization
+    -State Transition Optimization
   
-  -RTL Design and Verification
+    -RTL Design and Verification
 
 # Working
 The system operates as a **multi-stage FSM-driven pipeline**, combining sequence generation, controlled pattern insertion, and real-time detection.
