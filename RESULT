@@ -1,56 +1,42 @@
-## **📊 Results & Discussion**
+# Results
 
-The FSM-based sequence generator and detector system was successfully designed, simulated, and implemented on FPGA. The system accurately generates binary sequences and reliably detects the target pattern (`01111110`) in real time without false triggering.
+The FSM-based sequence generator and detector system was successfully simulated and implemented on FPGA, demonstrating accurate real-time performance and reliable hardware operation.
 
----
+# Simulation Waveforms
 
-### **🔍 Simulation Results**
+![Simulation Waveform](Simulated_OP_Waveform.jpg)
+![ILA Waveform](OP_gen_detec.jpg)
 
-![Simulation Waveform](waveform1.jpg)
+The simulation results validate the correct operation of the system:
+- Stable clock ensures synchronized FSM transitions  
+- Generated output (`gen_out`) exhibits both random and controlled sequence behavior  
+- Detection signal (`detect`) is asserted HIGH only after complete sequence match (`01111110`)  
 
-![ILA Waveform](waveform2.jpg)
+# Waveform Analysis
 
-*Figure: Simulation and ILA waveforms showing sequence generation and detection behavior.*
+- Detection occurs strictly at the **final state**, ensuring precise operation  
+- Output is active for **one clock cycle only**, avoiding redundant signals  
+- No false triggering for partial or incorrect patterns  
+- FSM accurately follows each bit through defined state transitions  
 
----
+# ILA Observations
 
-### **📈 Waveform Analysis**
+- In **random mode (`a = 0`)**, the detect signal remains LOW, confirming no unintended detection  
+- In **controlled mode (`a = 1`)**, the system injects the target sequence and produces clear detection pulses  
+- Real-time waveform capture confirms correct hardware-level FSM behavior  
 
-- The **clock signal** is stable, ensuring synchronized FSM operation.  
-- The **generated output (`gen_out`)** shows both random and controlled sequence patterns.  
-- The **detection signal (`detect`)** goes HIGH only when the complete sequence (`01111110`) is matched.  
+# Hardware Output
 
-**Key Observations:**
-- Detection occurs **only at the final state**, ensuring accuracy.  
-- The detect signal is active for **one clock cycle**, providing precise output.  
-- No false triggering is observed for partial or incorrect patterns.  
+![FPGA Output](HW_imp_2.jpg)
 
----
+- LED turns ON only when the target sequence is detected  
+- LED remains OFF for invalid or incomplete sequences  
+- Demonstrates reliable real-time implementation on FPGA hardware  
 
-### **📡 ILA Observations**
+# Final Outcome
 
-- In **random mode (`a = 0`)**, the detect signal remains LOW, confirming no unintended detection.  
-- In **controlled mode (`a = 1`)**, the system injects the target sequence, and the detect signal shows **clear HIGH pulses** at correct instances.  
-- Confirms correct FSM transitions and real-time detection on hardware.
-
----
-
-### **⚙️ Hardware Output**
-
-![FPGA Output](fpga.jpg)
-
-*Figure: LED indication on FPGA showing successful sequence detection.*
-
-- The **LED turns ON** when the target sequence is detected.  
-- The LED remains OFF when no valid sequence is present.  
-- Demonstrates **real-time hardware validation** of the system.
-
----
-
-### **🚀 Final Outcome**
-
-- ✔️ Accurate detection of sequence `01111110`  
-- ✔️ Zero false detection  
-- ✔️ One-clock-cycle precise output  
-- ✔️ Efficient FSM design and integration  
-- ✔️ Successful real-time FPGA implementation  
+- Accurate detection of sequence `01111110`  
+- Zero false detection  
+- One-clock-cycle precise output  
+- Efficient FSM design with optimized transitions  
+- Successful real-time FPGA validation  
