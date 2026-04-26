@@ -1,0 +1,33 @@
+# 📊 Results & Discussion
+
+The FSM-based sequence generator and detector system was successfully designed, simulated, and implemented on the FPGA. The system demonstrates accurate sequence generation, reliable detection of the target pattern (01111110), and efficient real-time performance without any false triggering.
+
+🔍 Simulation Waveforms
+
+📈 Explanation of Waveforms
+
+The simulation waveforms validate the correct operation of the overall system:
+
+The clock signal maintains a stable periodic waveform, ensuring synchronized FSM operation.
+The generated output (gen_out) shows varying bit patterns, confirming proper random and controlled sequence generation.
+The detection signal (detect) is asserted HIGH only when the complete target sequence (01111110) is received.
+
+It is clearly observed that:
+
+The FSM transitions through all intermediate states corresponding to each bit of the sequence.
+The detect signal is triggered only at the final state, ensuring precise detection.
+The output pulse is limited to one clock cycle, avoiding redundant or extended detection signals.
+📡 ILA Observations
+
+The Integrated Logic Analyzer (ILA) provides real-time validation of internal FPGA signals:
+
+In random mode (a = 0), the generated sequence does not consistently contain the target pattern, and the detect signal remains LOW, confirming no false detection.
+In controlled mode (a = 1), the predefined sequence is introduced into the data stream, and the detect signal shows distinct HIGH pulses exactly at the point of successful pattern matching.
+The ILA waveforms confirm that detection occurs only when the full sequence is matched, validating the correctness of FSM state transitions in hardware.
+⚙️ Hardware Output
+
+The design was successfully implemented on the PYNQ-Z2 FPGA board, and the results were verified using on-board LEDs:
+
+The LED glows when the target sequence is detected, providing a clear hardware indication of successful detection.
+When the sequence is not present, the LED remains OFF, ensuring zero false positives.
+The system responds in real time, demonstrating seamless interaction between sequence generation, pattern control, and detection mechanisms.
