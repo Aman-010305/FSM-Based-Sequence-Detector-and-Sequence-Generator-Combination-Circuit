@@ -6,11 +6,17 @@ This project implements a **Finite State Machine (FSM)-based Sequence Generator 
 
 # Tools and Techniques
 -Hardware: PYNQ-Z2 FPGA (Zynq-7000)
+
 -Software: Xilinx Vivado (Simulation, Synthesis, Implementation)
+
 -Simulation & Debugging: Vivado Simulator, Integrated Logic Analyzer (ILA)
+
 -Design Approach:
+
   -FSM Design (Mealy/Moore)
+  
   -State Transition Optimization
+  
   -RTL Design and Verification
 
 # Working
