@@ -5,13 +5,13 @@ FSM-based sequence detector and generator implemented in Verilog on FPGA, enabli
 This project implements a **Finite State Machine (FSM)-based Sequence Generator and Sequence Detector** integrated into a single digital system. Designed using **Verilog HDL** and deployed on a **PYNQ-Z2 FPGA**, the system can generate binary sequences and detect a predefined pattern (**01111110**) in real time with high accuracy and optimized hardware utilization.
 
 # Tools and Techniques
--Hardware: PYNQ-Z2 FPGA (Zynq-7000)
+-**Hardware**: PYNQ-Z2 FPGA (Zynq-7000)
 
--Software: Xilinx Vivado (Simulation, Synthesis, Implementation)
+-**Software**: Xilinx Vivado (Simulation, Synthesis, Implementation)
 
--Simulation & Debugging: Vivado Simulator, Integrated Logic Analyzer (ILA)
+-**Simulation & Debugging**: Vivado Simulator, Integrated Logic Analyzer (ILA)
 
--Design Approach:
+-**Design Approach**:
 
   -FSM Design (Mealy/Moore)
   
