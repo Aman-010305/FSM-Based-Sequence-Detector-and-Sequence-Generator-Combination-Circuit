@@ -16,23 +16,23 @@ This project implements a **Finite State Machine (FSM)-based Sequence Generator 
 # Working
 The system operates as a **multi-stage FSM-driven pipeline**, combining sequence generation, controlled pattern insertion, and real-time detection.
 
-**Initial Sequence Generation (8-bit Level)**
+**1.Initial Sequence Generation (8-bit Level)**
 -The process begins with an FSM-based generator that produces an **8-bit random sequence**. This stage acts as the base data source for the entire system.
 
-**Extended Sequence Formation (64-bit Level)**
+**2.Extended Sequence Formation (64-bit Level)**
 -The generated 8-bit sequence is then fed into a second FSM module, which expands it into a **64-bit serial data stream**. This stage simulates a continuous data transmission environment where patterns may occur randomly.
 
-**Controlled Pattern Injection**
+**3.Controlled Pattern Injection**
 -Between the second generator and the detector, a control signal (a) plays a crucial role:
   When **a = 0**: The system allows **pure random sequence flow**, meaning no guaranteed occurrence of the target pattern.
   When **a = 1**: The system intelligently **injects the predefined sequence (01111110)** into the data stream, ensuring that the detector receives the exact pattern.
 
-**Real-Time Sequence Detection**
+**4.Real-Time Sequence Detection**
 -The 64-bit stream is continuously monitored by the **FSM-based sequence detector**, which checks for the target pattern **bit-by-bit** using state transitions.
 -The FSM progresses through states corresponding to each bit of the sequence.
 -Only when the entire sequence is matched correctly, the detector asserts the output.
 
-**Output Indication**
+**5.Output Indication**
 -Upon **successful detection**, the **output signal goes HIGH for one clock cycle**, turning ON an LED on the FPGA board.
 -If the **sequence is not detected** or is partially matched, the **output remains LOW**, keeping the LED OFF.
 
@@ -45,10 +45,15 @@ The system operates as a **multi-stage FSM-driven pipeline**, combining sequence
 
 # Result 
 -Successful generation of **binary sequences** on FPGA
+
 -Accurate detection of sequence **01111110**
+
 -**Detection signal** asserted only on complete match
+
 -**No false detection** for partial sequences
+
 -Verified using **simulation waveforms** and **ILA outputs**
+
 -Hardware implementation confirmed via LED outputs on **PYNQ-Z2**
 
 ![Output Waveform](Simulated_OP_Waveform.jpg)
