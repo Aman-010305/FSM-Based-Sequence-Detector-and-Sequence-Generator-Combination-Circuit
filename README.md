@@ -30,16 +30,21 @@ The system operates as a **multi-stage FSM-driven pipeline**, combining sequence
 
 **3. Controlled Pattern Injection**
 -Between the second generator and the detector, a control signal (a) plays a crucial role:
+
   When **a = 0**: The system allows **pure random sequence flow**, meaning no guaranteed occurrence of the target pattern.
+  
   When **a = 1**: The system intelligently **injects the predefined sequence (01111110)** into the data stream, ensuring that the detector receives the exact pattern.
 
 **4. Real-Time Sequence Detection**
 -The 64-bit stream is continuously monitored by the **FSM-based sequence detector**, which checks for the target pattern **bit-by-bit** using state transitions.
+
 -The FSM progresses through states corresponding to each bit of the sequence.
+
 -Only when the entire sequence is matched correctly, the detector asserts the output.
 
 **5. Output Indication**
 -Upon **successful detection**, the **output signal goes HIGH for one clock cycle**, turning ON an LED on the FPGA board.
+
 -If the **sequence is not detected** or is partially matched, the **output remains LOW**, keeping the LED OFF.
 
 ### 🧩 System Block Diagram
