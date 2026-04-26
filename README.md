@@ -74,3 +74,14 @@ The system operates as a **multi-stage FSM-driven pipeline**, combining sequence
 -Implement **Bit Stuffing** to handle repetitive patterns and improving detection robustness.
 
 -**Display detected sequences** bit-by-bit using **FPGA board LEDs** for direct, real-time hardware-level identification.
+
+# Applications
+-Digital communication systems (**pattern recognition**).
+
+-Data encoding/decoding circuits.
+
+-Error detection systems.
+
+-Signal processing applications.
+
+-Protocol design and verification.
